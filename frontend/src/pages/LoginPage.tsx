@@ -46,14 +46,13 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decoration - subtle gray circles instead of indigo/purple */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-gray-300/5 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-gray-300/5 blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          
           <h1 className="text-3xl font-bold text-white">JobTracker App</h1>
           <p className="text-gray-400 mt-2 text-sm">
             Track every application, land your dream job
@@ -66,7 +65,7 @@ export default function LoginPage() {
 
           {/* Error banner */}
           {serverError && (
-            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-white/5 border border-white/20 text-white/80 text-sm mb-5">
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-300/5 border border-white/20 text-white/80 text-sm mb-5">
               <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{serverError}</span>
             </div>
@@ -128,12 +127,12 @@ export default function LoginPage() {
               type="submit"
               id="login-submit-btn"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-300 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5"
             >
               {isSubmitting ? <LoadingSpinner size="sm" /> : null}
               {isSubmitting ? "Signing in..." : "Sign in"}
             </button>
-          </form> 
+          </form>
 
           <div className="mt-5 pt-5 border-t border-white/10">
             <p className="text-center text-sm text-gray-500">

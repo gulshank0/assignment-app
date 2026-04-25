@@ -13,27 +13,27 @@ const config: Record<
   APPLIED: {
     label: "Applied",
     dotColor: "bg-gray-400",
-    classes: "bg-white/5 text-gray-400 border-white/10",
+    classes: "bg-gray-300/5 text-gray-400 border-white/10",
   },
   INTERVIEW: {
     label: "Interview",
     dotColor: "bg-gray-200",
-    classes: "bg-white/10 text-gray-200 border-white/20",
+    classes: "bg-gray-300/10 text-gray-200 border-white/20",
   },
   OFFER: {
     label: "Offer",
-    dotColor: "bg-white",
-    classes: "bg-white/20 text-white border-white/40",
+    dotColor: "bg-gray-300",
+    classes: "bg-gray-300/20 text-white border-white/40",
   },
   REJECTED: {
     label: "Rejected",
     dotColor: "bg-gray-600",
-    classes: "bg-white/5 text-gray-500 border-white/5",
+    classes: "bg-gray-300/5 text-gray-500 border-white/5",
   },
   WITHDRAWN: {
     label: "Withdrawn",
     dotColor: "bg-gray-700",
-    classes: "bg-white/5 text-gray-600 border-white/5",
+    classes: "bg-gray-300/5 text-gray-600 border-white/5",
   },
 };
 

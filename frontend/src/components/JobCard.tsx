@@ -50,7 +50,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
 
   return (
     <div
-      className={`glass rounded-xl p-5 hover:bg-white/[0.07] transition-all duration-200 group border-l-[3px] ${statusAccent[job.status]}`}
+      className={`glass rounded-xl p-5 hover:bg-gray-300/[0.07] transition-all duration-200 group border-l-[3px] ${statusAccent[job.status]}`}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
@@ -104,7 +104,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
           <button
             onClick={() => onEdit(job)}
             id={`edit-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-gray-300/10 transition-all duration-200"
           >
             <Edit2 className="h-3.5 w-3.5" />
             Edit
@@ -112,7 +112,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
           <button
             onClick={() => onDelete(job)}
             id={`delete-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-gray-300/10 transition-all duration-200"
           >
             <Trash2 className="h-3.5 w-3.5" />
             Delete

@@ -143,7 +143,7 @@ export default function JobModal({
           <button
             onClick={onClose}
             id="close-modal-btn"
-            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-300/10 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -267,7 +267,7 @@ export default function JobModal({
               type="submit"
               id="submit-job-btn"
               disabled={isLoading}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black text-sm font-semibold transition-all"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gray-300 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black text-sm font-semibold transition-all"
             >
               {isLoading ? <LoadingSpinner size="sm" /> : null}
               {initialData ? "Save Changes" : "Add Application"}

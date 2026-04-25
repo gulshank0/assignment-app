@@ -35,8 +35,6 @@ const STATUS_FILTERS: { value: string; label: string }[] = [
   { value: "WITHDRAWN", label: "Withdrawn" },
 ];
 
-
-
 export default function DashboardPage() {
   const { user } = useAuth();
 
@@ -56,7 +54,6 @@ export default function DashboardPage() {
 
   const [deletingJob, setDeletingJob] = useState<JobApplication | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
 
   const fetchJobs = useCallback(async () => {
     setIsLoadingJobs(true);
@@ -80,14 +77,12 @@ export default function DashboardPage() {
     return () => clearTimeout(timer);
   }, [fetchJobs]);
 
-
   const stats = {
     total: jobs.length,
     interview: jobs.filter((j) => j.status === "INTERVIEW").length,
     offer: jobs.filter((j) => j.status === "OFFER").length,
     rejected: jobs.filter((j) => j.status === "REJECTED").length,
   };
-
 
   const handleOpenAdd = () => {
     setEditingJob(null);
@@ -164,7 +159,7 @@ export default function DashboardPage() {
           <button
             onClick={handleOpenAdd}
             id="add-job-btn"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-gray-200 text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5 whitespace-nowrap"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-300 hover:bg-gray-200 text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5 whitespace-nowrap"
           >
             <Plus className="h-4 w-4" />
             Add Application
@@ -178,7 +173,7 @@ export default function DashboardPage() {
             value={stats.total}
             icon={Briefcase}
             iconColor="text-white"
-            bgColor="bg-white/10"
+            bgColor="bg-gray-300/10"
             onClick={() => setStatusFilter("")}
             active={statusFilter === ""}
           />
@@ -187,7 +182,7 @@ export default function DashboardPage() {
             value={stats.interview}
             icon={MessageSquare}
             iconColor="text-gray-200"
-            bgColor="bg-white/10"
+            bgColor="bg-gray-300/10"
             onClick={() => setStatusFilter("INTERVIEW")}
             active={statusFilter === "INTERVIEW"}
           />
@@ -196,7 +191,7 @@ export default function DashboardPage() {
             value={stats.offer}
             icon={CheckCircle}
             iconColor="text-white"
-            bgColor="bg-white/20"
+            bgColor="bg-gray-300/20"
             onClick={() => setStatusFilter("OFFER")}
             active={statusFilter === "OFFER"}
           />
@@ -205,7 +200,7 @@ export default function DashboardPage() {
             value={stats.rejected}
             icon={XCircle}
             iconColor="text-gray-500"
-            bgColor="bg-white/5"
+            bgColor="bg-gray-300/5"
             onClick={() => setStatusFilter("REJECTED")}
             active={statusFilter === "REJECTED"}
           />
@@ -254,7 +249,7 @@ export default function DashboardPage() {
               id="grid-view-btn"
               className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "grid"
-                  ? "bg-white text-black shadow-sm"
+                  ? "bg-gray-300 text-black shadow-sm"
                   : "text-gray-500 hover:text-white"
               }`}
             >
@@ -265,7 +260,7 @@ export default function DashboardPage() {
               id="list-view-btn"
               className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "list"
-                  ? "bg-white text-black shadow-sm"
+                  ? "bg-gray-300 text-black shadow-sm"
                   : "text-gray-500 hover:text-white"
               }`}
             >
@@ -290,7 +285,7 @@ export default function DashboardPage() {
           </div>
         ) : jobs.length === 0 ? (
           <div className="glass rounded-2xl p-12 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-300/5 mb-4">
               <Briefcase className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-300 mb-2">
@@ -306,7 +301,7 @@ export default function DashboardPage() {
             {!search && !statusFilter && (
               <button
                 onClick={handleOpenAdd}
-                className="px-5 py-2.5 rounded-xl bg-white hover:bg-gray-200 text-black font-bold text-sm transition-all"
+                className="px-5 py-2.5 rounded-xl bg-gray-300 hover:bg-gray-200 text-black font-bold text-sm transition-all"
               >
                 Add your first application
               </button>
@@ -386,7 +381,7 @@ export default function DashboardPage() {
                 onClick={handleConfirmDelete}
                 id="confirm-delete-btn"
                 disabled={isDeleting}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-gray-200 disabled:opacity-60 text-black font-bold text-sm transition-all"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gray-300 hover:bg-gray-200 disabled:opacity-60 text-black font-bold text-sm transition-all"
               >
                 {isDeleting ? <LoadingSpinner size="sm" /> : null}
                 Delete

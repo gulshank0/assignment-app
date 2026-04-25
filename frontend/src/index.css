@@ -2,9 +2,9 @@
 
 @layer base {
   :root {
-    --color-primary: #ffffff;
-    --color-primary-dark: #cccccc;
-    --color-primary-light: #ffffff;
+    --color-primary: #d1d5db;
+    --color-primary-dark: #bbbec4;
+    --color-primary-light: #d1d5db;
     --color-surface: #000000;
     --color-surface-raised: #0a0a0a;
     --color-border: #333333;
