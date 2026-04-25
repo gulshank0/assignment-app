@@ -1,4 +1,3 @@
-import React from "react";
 import type { AppStatus } from "../types";
 
 interface StatusBadgeProps {

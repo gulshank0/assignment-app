@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Plus,
   Search,
@@ -19,11 +19,7 @@ import SkeletonCard from "../components/SkeletonCard";
 import { toast } from "../components/Toast";
 import { useAuth } from "../context/AuthContext";
 import * as applicationsApi from "../api/applications.api";
-import type {
-  JobApplication,
-  AppStatus,
-  CreateApplicationInput,
-} from "../types";
+import type { JobApplication, CreateApplicationInput } from "../types";
 import axios from "axios";
 
 const STATUS_FILTERS: { value: string; label: string }[] = [

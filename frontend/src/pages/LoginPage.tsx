@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Briefcase, Mail, Lock, AlertCircle } from "lucide-react";
+import { Mail, Lock, AlertCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
 import axios from "axios";

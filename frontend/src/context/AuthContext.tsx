@@ -1,10 +1,10 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
   useEffect,
   useCallback,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import type { User } from "../types";
 import * as authApi from "../api/auth.api";
