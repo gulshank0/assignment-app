@@ -226,7 +226,7 @@ export default function JobModal({
               <input
                 {...register("salary")}
                 id="salary-input"
-                placeholder="e.g. $120k - $160k"
+                placeholder="e.g. 30k - 100k"
                 className={inputClass}
               />
             </div>

@@ -15,6 +15,8 @@ import StatsCard from "../components/StatsCard";
 import JobCard from "../components/JobCard";
 import JobModal from "../components/JobModal";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SkeletonCard from "../components/SkeletonCard";
+import { toast } from "../components/Toast";
 import { useAuth } from "../context/AuthContext";
 import * as applicationsApi from "../api/applications.api";
 import type {
@@ -25,13 +27,20 @@ import type {
 import axios from "axios";
 
 const STATUS_FILTERS: { value: string; label: string }[] = [
-  { value: "", label: "All" },
+  { value: "", label: "All statuses" },
   { value: "APPLIED", label: "Applied" },
   { value: "INTERVIEW", label: "Interview" },
   { value: "OFFER", label: "Offer" },
   { value: "REJECTED", label: "Rejected" },
   { value: "WITHDRAWN", label: "Withdrawn" },
 ];
+
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -113,9 +122,11 @@ export default function DashboardPage() {
           data,
         );
         setJobs((prev) => prev.map((j) => (j.id === updated.id ? updated : j)));
+        toast("Application updated successfully", "success");
       } else {
         const created = await applicationsApi.createApplication(data);
         setJobs((prev) => [created, ...prev]);
+        toast("Application added successfully", "success");
       }
       setModalOpen(false);
       setEditingJob(null);
@@ -125,6 +136,7 @@ export default function DashboardPage() {
           err.response?.data?.message || "Failed to save. Please try again.",
         );
       }
+      toast("Failed to save application", "error");
     } finally {
       setIsSaving(false);
     }
@@ -136,9 +148,10 @@ export default function DashboardPage() {
     try {
       await applicationsApi.deleteApplication(deletingJob.id);
       setJobs((prev) => prev.filter((j) => j.id !== deletingJob.id));
+      toast("Application deleted", "success");
       setDeletingJob(null);
     } catch {
-      // Silently retry from user perspective
+      toast("Failed to delete application", "error");
     } finally {
       setIsDeleting(false);
     }
@@ -153,13 +166,7 @@ export default function DashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h2 className="text-2xl font-bold text-slate-100">
-              Good{" "}
-              {new Date().getHours() < 12
-                ? "morning"
-                : new Date().getHours() < 17
-                  ? "afternoon"
-                  : "evening"}
-              , {user?.name?.split(" ")[0]}
+              {getGreeting()}, {user?.name?.split(" ")[0]}
             </h2>
             <p className="text-slate-400 text-sm mt-1">
               Track and manage all your job applications
@@ -226,7 +233,7 @@ export default function DashboardPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by company or position..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
             />
           </div>
 
@@ -236,7 +243,7 @@ export default function DashboardPage() {
               id="status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors cursor-pointer"
+              className="appearance-none pl-3 pr-8 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200 cursor-pointer"
             >
               {STATUS_FILTERS.map((f) => (
                 <option key={f.value} value={f.value} className="bg-slate-900">
@@ -248,13 +255,13 @@ export default function DashboardPage() {
           </div>
 
           {/* View toggle */}
-          <div className="flex gap-1 p-1 rounded-lg bg-slate-900 border border-slate-700">
+          <div className="flex gap-1 p-1 rounded-lg bg-slate-900/80 border border-slate-700/80">
             <button
               onClick={() => setView("grid")}
               id="grid-view-btn"
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "grid"
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-indigo-600 text-white shadow-sm"
                   : "text-slate-500 hover:text-slate-300"
               }`}
             >
@@ -263,9 +270,9 @@ export default function DashboardPage() {
             <button
               onClick={() => setView("list")}
               id="list-view-btn"
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "list"
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-indigo-600 text-white shadow-sm"
                   : "text-slate-500 hover:text-slate-300"
               }`}
             >
@@ -283,8 +290,10 @@ export default function DashboardPage() {
 
         {/* Jobs grid/list */}
         {isLoadingJobs ? (
-          <div className="flex justify-center py-20">
-            <LoadingSpinner size="lg" />
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4`}
+          >
+            <SkeletonCard count={6} />
           </div>
         ) : jobs.length === 0 ? (
           <div className="glass rounded-2xl p-12 text-center">
@@ -292,12 +301,14 @@ export default function DashboardPage() {
               <Briefcase className="h-8 w-8 text-slate-600" />
             </div>
             <h3 className="text-lg font-semibold text-slate-300 mb-2">
-              No applications yet
-            </h3>
-            <p className="text-slate-500 text-sm mb-6">
               {search || statusFilter
-                ? "No applications match your filters."
-                : "Start tracking your job search by adding your first application."}
+                ? "No matching applications"
+                : "No applications yet"}
+            </h3>
+            <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
+              {search || statusFilter
+                ? "Try adjusting your search or filters to find what you're looking for."
+                : "Start tracking your job search by adding your first application. Stay organized and never miss a follow-up."}
             </p>
             {!search && !statusFilter && (
               <button
@@ -355,7 +366,7 @@ export default function DashboardPage() {
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={() => setDeletingJob(null)}
           />
-          <div className="relative glass rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="relative glass rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-modal-enter">
             <h3 className="text-lg font-bold text-slate-100 mb-2">
               Delete Application
             </h3>
@@ -364,7 +375,7 @@ export default function DashboardPage() {
               <span className="font-medium text-slate-200">
                 {deletingJob.position}
               </span>{" "}
-              at{" "}
+              position at{" "}
               <span className="font-medium text-slate-200">
                 {deletingJob.company}
               </span>
