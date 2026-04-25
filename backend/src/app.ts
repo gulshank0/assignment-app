@@ -14,7 +14,7 @@ app.use(helmet());
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://assignment-app-v94h.vercel.app",
+    origin: process.env.CLIENT_URL || "https://assignment-app-7vdf.vercel.app",
     credentials: true, // Allow cookies
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
