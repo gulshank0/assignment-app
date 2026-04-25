@@ -1,0 +1,106 @@
+import React from "react";
+import {
+  Building2,
+  MapPin,
+  DollarSign,
+  ExternalLink,
+  Edit2,
+  Trash2,
+  Calendar,
+} from "lucide-react";
+import StatusBadge from "./StatusBadge";
+import type { JobApplication } from "../types";
+
+interface JobCardProps {
+  job: JobApplication;
+  onEdit: (job: JobApplication) => void;
+  onDelete: (job: JobApplication) => void;
+}
+
+export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
+  const appliedDate = new Date(job.appliedAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  return (
+    <div className="glass rounded-xl p-5 hover:bg-white/[0.07] transition-all duration-200 group">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-slate-100 truncate text-base">
+            {job.position}
+          </h3>
+          <div className="flex items-center gap-1.5 mt-1">
+            <Building2 className="h-3.5 w-3.5 text-slate-500 shrink-0" />
+            <span className="text-sm text-slate-400 truncate">
+              {job.company}
+            </span>
+          </div>
+        </div>
+        <StatusBadge status={job.status} />
+      </div>
+
+      {/* Meta info */}
+      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-4">
+        {job.location && (
+          <div className="flex items-center gap-1 text-xs text-slate-500">
+            <MapPin className="h-3 w-3" />
+            <span>{job.location}</span>
+          </div>
+        )}
+        {job.salary && (
+          <div className="flex items-center gap-1 text-xs text-slate-500">
+            <DollarSign className="h-3 w-3" />
+            <span>{job.salary}</span>
+          </div>
+        )}
+        <div className="flex items-center gap-1 text-xs text-slate-500">
+          <Calendar className="h-3 w-3" />
+          <span>{appliedDate}</span>
+        </div>
+      </div>
+
+      {/* Notes */}
+      {job.notes && (
+        <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+          {job.notes}
+        </p>
+      )}
+
+      {/* Actions */}
+      <div className="flex items-center justify-between pt-3 border-t border-white/5">
+        <div className="flex gap-2">
+          <button
+            onClick={() => onEdit(job)}
+            id={`edit-job-${job.id}`}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
+          >
+            <Edit2 className="h-3.5 w-3.5" />
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(job)}
+            id={`delete-job-${job.id}`}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+            Delete
+          </button>
+        </div>
+        {job.url && (
+          <a
+            href={job.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs text-slate-500 hover:text-indigo-400 transition-colors"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            View
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,58 @@
+// Prisma schema for Job Application Tracker
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String           @id @default(cuid())
+  name          String
+  email         String           @unique
+  password      String
+  role          Role             @default(USER)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  applications  JobApplication[]
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model JobApplication {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company     String
+  position    String
+  status      AppStatus @default(APPLIED)
+  location    String?
+  salary      String?
+  url         String?
+  notes       String?
+  appliedAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum AppStatus {
+  APPLIED
+  INTERVIEW
+  OFFER
+  REJECTED
+  WITHDRAWN
+}
+
+enum Role {
+  USER
+  ADMIN
+}
