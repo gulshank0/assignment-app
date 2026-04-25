@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "https://assignment-app-8hyt.vercel.app",
         changeOrigin: true,
       },
     },
