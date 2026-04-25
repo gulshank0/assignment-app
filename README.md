@@ -1,4 +1,4 @@
-# JobTracker 🎯
+# JobTracker App
 
 A production-ready full-stack **Job Application Tracker** built with React, Node.js, TypeScript, Prisma, and PostgreSQL.
 
