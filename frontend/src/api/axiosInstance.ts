@@ -4,8 +4,10 @@ let accessToken: string | null = null;
 
 // Axios instance with base URL and credentials
 const api = axios.create({
+  // Use VITE_API_BASE_URL if provided, else fall back to local /api proxy.
+  // Ensure we don't double up on /api or miss it.
   baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
-  withCredentials: true, // Send httpOnly refresh cookie automatically
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 
