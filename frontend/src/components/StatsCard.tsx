@@ -26,18 +26,22 @@ export default function StatsCard({
       className={`
         glass rounded-xl p-5 text-left w-full transition-all duration-200
         ${onClick ? "cursor-pointer hover:bg-white/[0.08] hover:scale-[1.02]" : "cursor-default"}
-        ${active ? "ring-1 ring-indigo-500/50 bg-white/[0.08] border-indigo-500/30" : ""}
+        ${active ? "ring-2 ring-white bg-white/[0.1] border-white/40" : "border-white/10"}
       `}
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-slate-400 mb-1 font-medium">{title}</p>
-          <p className="text-3xl font-bold text-slate-100 tracking-tight tabular-nums">
+          <p className="text-sm text-gray-400 mb-1 font-medium">{title}</p>
+          <p className="text-3xl font-bold text-white tracking-tight tabular-nums">
             {value}
           </p>
         </div>
-        <div className={`p-2.5 rounded-xl ${bgColor}`}>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+        <div
+          className={`p-2.5 rounded-xl ${bgColor.includes("bg") ? (active ? "bg-white" : "bg-white/10") : bgColor}`}
+        >
+          <Icon
+            className={`h-5 w-5 ${iconColor.includes("text") ? (active ? "text-black" : "text-white") : iconColor}`}
+          />
         </div>
       </div>
     </button>

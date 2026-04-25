@@ -37,11 +37,11 @@ const STATUS_OPTIONS = [
 ] as const;
 
 const inputClass =
-  "w-full px-3 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200";
+  "w-full px-3 py-2.5 rounded-lg bg-black border border-white/20 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/60 transition-all duration-200";
 
-const labelClass = "block text-sm font-medium text-slate-300 mb-1.5";
+const labelClass = "block text-sm font-medium text-gray-300 mb-1.5";
 
-const errorClass = "text-xs text-red-400 mt-1";
+const errorClass = "text-xs text-white/80 mt-1";
 
 export default function JobModal({
   isOpen,
@@ -131,10 +131,10 @@ export default function JobModal({
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-lg font-bold text-slate-100">
+            <h2 className="text-lg font-bold text-white">
               {initialData ? "Edit Application" : "New Application"}
             </h2>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <p className="text-sm text-gray-500 mt-0.5">
               {initialData
                 ? "Update the details below"
                 : "Fill in the details to track a new application"}
@@ -143,7 +143,7 @@ export default function JobModal({
           <button
             onClick={onClose}
             id="close-modal-btn"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/10 transition-colors"
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -154,7 +154,7 @@ export default function JobModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>
-                Company <span className="text-red-400/70">*</span>
+                Company <span className="text-white/70">*</span>
               </label>
               <input
                 {...register("company")}
@@ -174,7 +174,7 @@ export default function JobModal({
             </div>
             <div>
               <label className={labelClass}>
-                Position <span className="text-red-400/70">*</span>
+                Position <span className="text-white/70">*</span>
               </label>
               <input
                 {...register("position")}
@@ -201,7 +201,7 @@ export default function JobModal({
                   <option
                     key={s.value}
                     value={s.value}
-                    className="bg-slate-900"
+                    className="bg-black text-white"
                   >
                     {s.label}
                   </option>
@@ -226,7 +226,7 @@ export default function JobModal({
               <input
                 {...register("salary")}
                 id="salary-input"
-                placeholder="e.g. 30k - 100k"
+                placeholder="e.g. ₹5,00,000"
                 className={inputClass}
               />
             </div>
@@ -259,7 +259,7 @@ export default function JobModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600 transition-all text-sm font-medium"
+              className="flex-1 px-4 py-2.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all text-sm font-medium"
             >
               Cancel
             </button>
@@ -267,7 +267,7 @@ export default function JobModal({
               type="submit"
               id="submit-job-btn"
               disabled={isLoading}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-all"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black text-sm font-semibold transition-all"
             >
               {isLoading ? <LoadingSpinner size="sm" /> : null}
               {initialData ? "Save Changes" : "Add Application"}

@@ -12,28 +12,28 @@ const config: Record<
 > = {
   APPLIED: {
     label: "Applied",
-    dotColor: "bg-blue-400",
-    classes: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    dotColor: "bg-gray-400",
+    classes: "bg-white/5 text-gray-400 border-white/10",
   },
   INTERVIEW: {
     label: "Interview",
-    dotColor: "bg-yellow-400",
-    classes: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+    dotColor: "bg-gray-200",
+    classes: "bg-white/10 text-gray-200 border-white/20",
   },
   OFFER: {
     label: "Offer",
-    dotColor: "bg-emerald-400",
-    classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    dotColor: "bg-white",
+    classes: "bg-white/20 text-white border-white/40",
   },
   REJECTED: {
     label: "Rejected",
-    dotColor: "bg-red-400",
-    classes: "bg-red-500/10 text-red-400 border-red-500/20",
+    dotColor: "bg-gray-600",
+    classes: "bg-white/5 text-gray-500 border-white/5",
   },
   WITHDRAWN: {
     label: "Withdrawn",
-    dotColor: "bg-slate-400",
-    classes: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    dotColor: "bg-gray-700",
+    classes: "bg-white/5 text-gray-600 border-white/5",
   },
 };
 

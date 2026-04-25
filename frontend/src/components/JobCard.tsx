@@ -2,7 +2,7 @@ import React from "react";
 import {
   Building2,
   MapPin,
-  DollarSign,
+  IndianRupee,
   ExternalLink,
   Edit2,
   Trash2,
@@ -18,11 +18,11 @@ interface JobCardProps {
 }
 
 const statusAccent: Record<AppStatus, string> = {
-  APPLIED: "border-l-blue-500/60",
-  INTERVIEW: "border-l-yellow-500/60",
-  OFFER: "border-l-emerald-500/60",
-  REJECTED: "border-l-red-500/60",
-  WITHDRAWN: "border-l-slate-500/60",
+  APPLIED: "border-l-white/20",
+  INTERVIEW: "border-l-white/40",
+  OFFER: "border-l-white/100",
+  REJECTED: "border-l-white/10",
+  WITHDRAWN: "border-l-white/5",
 };
 
 function timeAgo(dateStr: string): string {
@@ -55,12 +55,12 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-slate-100 truncate text-[15px] leading-snug">
+          <h3 className="font-semibold text-white truncate text-[15px] leading-snug">
             {job.position}
           </h3>
           <div className="flex items-center gap-1.5 mt-1">
-            <Building2 className="h-3.5 w-3.5 text-slate-500 shrink-0" />
-            <span className="text-sm text-slate-400 truncate">
+            <Building2 className="h-3.5 w-3.5 text-gray-500 shrink-0" />
+            <span className="text-sm text-gray-400 truncate">
               {job.company}
             </span>
           </div>
@@ -71,19 +71,19 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
       {/* Meta info */}
       <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
         {job.location && (
-          <div className="flex items-center gap-1 text-xs text-slate-500">
+          <div className="flex items-center gap-1 text-xs text-gray-500">
             <MapPin className="h-3 w-3" />
             <span>{job.location}</span>
           </div>
         )}
         {job.salary && (
-          <div className="flex items-center gap-1 text-xs text-slate-500">
-            <DollarSign className="h-3 w-3" />
+          <div className="flex items-center gap-1 text-xs text-gray-500">
+            <IndianRupee className="h-3 w-3" />
             <span>{job.salary}</span>
           </div>
         )}
         <div
-          className="flex items-center gap-1 text-xs text-slate-500"
+          className="flex items-center gap-1 text-xs text-gray-500"
           title={appliedDate}
         >
           <Calendar className="h-3 w-3" />
@@ -93,18 +93,18 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
 
       {/* Notes */}
       {job.notes && (
-        <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+        <p className="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">
           {job.notes}
         </p>
       )}
 
       {/* Actions */}
-      <div className="flex items-center justify-between pt-3 border-t border-white/5">
+      <div className="flex items-center justify-between pt-3 border-t border-white/10">
         <div className="flex gap-1">
           <button
             onClick={() => onEdit(job)}
             id={`edit-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
           >
             <Edit2 className="h-3.5 w-3.5" />
             Edit
@@ -112,7 +112,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
           <button
             onClick={() => onDelete(job)}
             id={`delete-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
           >
             <Trash2 className="h-3.5 w-3.5" />
             Delete
@@ -123,7 +123,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
             href={job.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs text-slate-500 hover:text-indigo-400 transition-colors"
+            className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
           >
             <ExternalLink className="h-3.5 w-3.5" />
             View

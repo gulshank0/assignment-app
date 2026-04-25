@@ -22,29 +22,29 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-white/[0.06]">
+    <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="p-1.5 rounded-lg bg-indigo-500/15 group-hover:bg-indigo-500/25 transition-colors">
-              <Briefcase className="h-5 w-5 text-indigo-400" />
+            <div className="rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
+              
             </div>
-            <span className="text-lg font-bold gradient-text">JobTracker</span>
+            <span className="text-lg font-bold text-white">JobTracker App</span>
           </Link>
 
           {/* User info + Logout */}
           <div className="flex items-center gap-3">
             {user && (
               <div className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-white/[0.04]">
-                <div className="h-7 w-7 rounded-full bg-indigo-500/20 flex items-center justify-center text-xs font-semibold text-indigo-300">
+                <div className="h-7 w-7 rounded-full bg-white/10 flex items-center justify-center text-xs font-semibold text-white">
                   {getInitials(user.name)}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-slate-200 leading-none">
+                  <p className="text-sm font-medium text-white leading-none">
                     {user.name}
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-gray-500 mt-0.5">
                     {user.email}
                   </p>
                 </div>
@@ -54,7 +54,7 @@ export default function Navbar() {
             <button
               onClick={handleLogout}
               id="logout-btn"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:block">Sign out</span>

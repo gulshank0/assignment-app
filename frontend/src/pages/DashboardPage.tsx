@@ -35,12 +35,7 @@ const STATUS_FILTERS: { value: string; label: string }[] = [
   { value: "WITHDRAWN", label: "Withdrawn" },
 ];
 
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
+
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -50,22 +45,18 @@ export default function DashboardPage() {
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
   const [fetchError, setFetchError] = useState("");
 
-  // Filters
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [view, setView] = useState<"grid" | "list">("grid");
 
-  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
 
-  // Delete confirmation
   const [deletingJob, setDeletingJob] = useState<JobApplication | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // ─── Fetch jobs ────────────────────────────────────────────────────────────
 
   const fetchJobs = useCallback(async () => {
     setIsLoadingJobs(true);
@@ -89,7 +80,6 @@ export default function DashboardPage() {
     return () => clearTimeout(timer);
   }, [fetchJobs]);
 
-  // ─── Stats ─────────────────────────────────────────────────────────────────
 
   const stats = {
     total: jobs.length,
@@ -98,7 +88,6 @@ export default function DashboardPage() {
     rejected: jobs.filter((j) => j.status === "REJECTED").length,
   };
 
-  // ─── CRUD handlers ─────────────────────────────────────────────────────────
 
   const handleOpenAdd = () => {
     setEditingJob(null);
@@ -165,17 +154,17 @@ export default function DashboardPage() {
         {/* Page header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-slate-100">
-              {getGreeting()}, {user?.name?.split(" ")[0]}
+            <h2 className="text-2xl font-bold text-white">
+              Hi, {user?.name?.split(" ")[0]}
             </h2>
-            <p className="text-slate-400 text-sm mt-1">
+            <p className="text-gray-400 text-sm mt-1">
               Track and manage all your job applications
             </p>
           </div>
           <button
             onClick={handleOpenAdd}
             id="add-job-btn"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-indigo-500/20 whitespace-nowrap"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-gray-200 text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5 whitespace-nowrap"
           >
             <Plus className="h-4 w-4" />
             Add Application
@@ -188,8 +177,8 @@ export default function DashboardPage() {
             title="Total"
             value={stats.total}
             icon={Briefcase}
-            iconColor="text-indigo-400"
-            bgColor="bg-indigo-500/15"
+            iconColor="text-white"
+            bgColor="bg-white/10"
             onClick={() => setStatusFilter("")}
             active={statusFilter === ""}
           />
@@ -197,8 +186,8 @@ export default function DashboardPage() {
             title="Interview"
             value={stats.interview}
             icon={MessageSquare}
-            iconColor="text-yellow-400"
-            bgColor="bg-yellow-500/15"
+            iconColor="text-gray-200"
+            bgColor="bg-white/10"
             onClick={() => setStatusFilter("INTERVIEW")}
             active={statusFilter === "INTERVIEW"}
           />
@@ -206,8 +195,8 @@ export default function DashboardPage() {
             title="Offers"
             value={stats.offer}
             icon={CheckCircle}
-            iconColor="text-emerald-400"
-            bgColor="bg-emerald-500/15"
+            iconColor="text-white"
+            bgColor="bg-white/20"
             onClick={() => setStatusFilter("OFFER")}
             active={statusFilter === "OFFER"}
           />
@@ -215,8 +204,8 @@ export default function DashboardPage() {
             title="Rejected"
             value={stats.rejected}
             icon={XCircle}
-            iconColor="text-red-400"
-            bgColor="bg-red-500/15"
+            iconColor="text-gray-500"
+            bgColor="bg-white/5"
             onClick={() => setStatusFilter("REJECTED")}
             active={statusFilter === "REJECTED"}
           />
@@ -226,14 +215,14 @@ export default function DashboardPage() {
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           {/* Search */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
             <input
               type="text"
               id="search-input"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by company or position..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
+              className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-black border border-white/20 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/60 transition-all duration-200"
             />
           </div>
 
@@ -243,26 +232,30 @@ export default function DashboardPage() {
               id="status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200 cursor-pointer"
+              className="appearance-none pl-3 pr-8 py-2.5 rounded-lg bg-black border border-white/20 text-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/60 transition-all duration-200 cursor-pointer"
             >
               {STATUS_FILTERS.map((f) => (
-                <option key={f.value} value={f.value} className="bg-slate-900">
+                <option
+                  key={f.value}
+                  value={f.value}
+                  className="bg-black text-white"
+                >
                   {f.label}
                 </option>
               ))}
             </select>
-            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500 pointer-events-none" />
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500 pointer-events-none" />
           </div>
 
           {/* View toggle */}
-          <div className="flex gap-1 p-1 rounded-lg bg-slate-900/80 border border-slate-700/80">
+          <div className="flex gap-1 p-1 rounded-lg bg-black border border-white/20">
             <button
               onClick={() => setView("grid")}
               id="grid-view-btn"
               className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "grid"
-                  ? "bg-indigo-600 text-white shadow-sm"
-                  : "text-slate-500 hover:text-slate-300"
+                  ? "bg-white text-black shadow-sm"
+                  : "text-gray-500 hover:text-white"
               }`}
             >
               <LayoutGrid className="h-4 w-4" />
@@ -272,8 +265,8 @@ export default function DashboardPage() {
               id="list-view-btn"
               className={`p-1.5 rounded-md transition-all duration-200 ${
                 view === "list"
-                  ? "bg-indigo-600 text-white shadow-sm"
-                  : "text-slate-500 hover:text-slate-300"
+                  ? "bg-white text-black shadow-sm"
+                  : "text-gray-500 hover:text-white"
               }`}
             >
               <List className="h-4 w-4" />
@@ -283,7 +276,7 @@ export default function DashboardPage() {
 
         {/* Error state */}
         {fetchError && (
-          <div className="glass rounded-xl p-4 text-center text-red-400 text-sm mb-6">
+          <div className="glass rounded-xl p-4 text-center text-white text-sm mb-6 border-white/20">
             {fetchError}
           </div>
         )}
@@ -297,15 +290,15 @@ export default function DashboardPage() {
           </div>
         ) : jobs.length === 0 ? (
           <div className="glass rounded-2xl p-12 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-800 mb-4">
-              <Briefcase className="h-8 w-8 text-slate-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 mb-4">
+              <Briefcase className="h-8 w-8 text-gray-600" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-300 mb-2">
+            <h3 className="text-lg font-semibold text-gray-300 mb-2">
               {search || statusFilter
                 ? "No matching applications"
                 : "No applications yet"}
             </h3>
-            <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">
+            <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
               {search || statusFilter
                 ? "Try adjusting your search or filters to find what you're looking for."
                 : "Start tracking your job search by adding your first application. Stay organized and never miss a follow-up."}
@@ -313,7 +306,7 @@ export default function DashboardPage() {
             {!search && !statusFilter && (
               <button
                 onClick={handleOpenAdd}
-                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all"
+                className="px-5 py-2.5 rounded-xl bg-white hover:bg-gray-200 text-black font-bold text-sm transition-all"
               >
                 Add your first application
               </button>
@@ -354,7 +347,7 @@ export default function DashboardPage() {
         isLoading={isSaving}
       />
       {saveError && modalOpen && (
-        <div className="fixed bottom-4 right-4 z-[60] glass rounded-lg px-4 py-3 text-red-400 text-sm border border-red-500/20">
+        <div className="fixed bottom-4 right-4 z-[60] glass rounded-lg px-4 py-3 text-white text-sm border border-white/20">
           {saveError}
         </div>
       )}
@@ -367,16 +360,16 @@ export default function DashboardPage() {
             onClick={() => setDeletingJob(null)}
           />
           <div className="relative glass rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-modal-enter">
-            <h3 className="text-lg font-bold text-slate-100 mb-2">
+            <h3 className="text-lg font-bold text-white mb-2">
               Delete Application
             </h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <p className="text-gray-400 text-sm mb-6">
               Are you sure you want to delete the{" "}
-              <span className="font-medium text-slate-200">
+              <span className="font-medium text-white">
                 {deletingJob.position}
               </span>{" "}
               position at{" "}
-              <span className="font-medium text-slate-200">
+              <span className="font-medium text-white">
                 {deletingJob.company}
               </span>
               ? This action cannot be undone.
@@ -385,7 +378,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setDeletingJob(null)}
                 id="cancel-delete-btn"
-                className="flex-1 px-4 py-2.5 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600 transition-all text-sm font-medium"
+                className="flex-1 px-4 py-2.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all text-sm font-medium"
               >
                 Cancel
               </button>
@@ -393,7 +386,7 @@ export default function DashboardPage() {
                 onClick={handleConfirmDelete}
                 id="confirm-delete-btn"
                 disabled={isDeleting}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 disabled:opacity-60 text-white text-sm font-semibold transition-all"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-gray-200 disabled:opacity-60 text-black font-bold text-sm transition-all"
               >
                 {isDeleting ? <LoadingSpinner size="sm" /> : null}
                 Delete

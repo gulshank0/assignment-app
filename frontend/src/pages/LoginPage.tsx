@@ -44,33 +44,29 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background decoration */}
+      {/* Background decoration - subtle gray circles instead of indigo/purple */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-indigo-500/8 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/8 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-500/15 mb-4">
-            <Briefcase className="h-7 w-7 text-indigo-400" />
-          </div>
-          <h1 className="text-3xl font-bold gradient-text">JobTracker</h1>
-          <p className="text-slate-400 mt-2 text-sm">
+          
+          <h1 className="text-3xl font-bold text-white">JobTracker App</h1>
+          <p className="text-gray-400 mt-2 text-sm">
             Track every application, land your dream job
           </p>
         </div>
 
         {/* Card */}
         <div className="glass rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-xl font-bold text-slate-100 mb-6">
-            Welcome back
-          </h2>
+          <h2 className="text-xl font-bold text-white mb-6">Welcome back</h2>
 
           {/* Error banner */}
           {serverError && (
-            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-5">
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-white/5 border border-white/20 text-white/80 text-sm mb-5">
               <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{serverError}</span>
             </div>
@@ -83,22 +79,22 @@ export default function LoginPage() {
           >
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
                 Email address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                 <input
                   {...register("email")}
                   id="email-input"
                   type="email"
                   autoComplete="email"
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-black border border-white/20 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/60 transition-all duration-200"
                 />
               </div>
               {errors.email && (
-                <p className="text-xs text-red-400 mt-1">
+                <p className="text-xs text-white/70 mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -106,22 +102,22 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                 <input
                   {...register("password")}
                   id="password-input"
                   type="password"
                   autoComplete="current-password"
                   placeholder="Enter your password"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-black border border-white/20 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/60 transition-all duration-200"
                 />
               </div>
               {errors.password && (
-                <p className="text-xs text-red-400 mt-1">
+                <p className="text-xs text-white/70 mt-1">
                   {errors.password.message}
                 </p>
               )}
@@ -132,27 +128,19 @@ export default function LoginPage() {
               type="submit"
               id="login-submit-btn"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-indigo-500/20"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed text-black font-bold text-sm transition-all duration-200 shadow-lg shadow-white/5"
             >
               {isSubmitting ? <LoadingSpinner size="sm" /> : null}
               {isSubmitting ? "Signing in..." : "Sign in"}
             </button>
-          </form>
+          </form> 
 
-          {/* Demo hint */}
-          <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-            <p className="text-xs text-slate-500 text-center">
-              <span className="text-slate-400 font-medium">Demo account:</span>{" "}
-              demo@jobtracker.com / Demo1234!
-            </p>
-          </div>
-
-          <div className="mt-5 pt-5 border-t border-white/5">
-            <p className="text-center text-sm text-slate-500">
+          <div className="mt-5 pt-5 border-t border-white/10">
+            <p className="text-center text-sm text-gray-500">
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                className="text-white hover:text-gray-300 font-bold underline underline-offset-4 transition-colors"
               >
                 Sign up free
               </Link>

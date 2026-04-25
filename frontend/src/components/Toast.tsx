@@ -21,15 +21,15 @@ export function toast(message: string, type: ToastType = "info") {
 }
 
 const iconMap: Record<ToastType, React.ReactNode> = {
-  success: <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" />,
-  error: <XCircle className="h-4 w-4 text-red-400 shrink-0" />,
-  info: <Info className="h-4 w-4 text-blue-400 shrink-0" />,
+  success: <CheckCircle className="h-4 w-4 text-white shrink-0" />,
+  error: <XCircle className="h-4 w-4 text-white shrink-0" />,
+  info: <Info className="h-4 w-4 text-gray-400 shrink-0" />,
 };
 
 const borderMap: Record<ToastType, string> = {
-  success: "border-emerald-500/20",
-  error: "border-red-500/20",
-  info: "border-blue-500/20",
+  success: "border-white/40 shadow-white/5",
+  error: "border-white/60 shadow-white/10",
+  info: "border-white/20 shadow-white/5",
 };
 
 export default function ToastContainer() {
@@ -79,13 +79,13 @@ export default function ToastContainer() {
               ? "toast-exit 0.3s ease-in forwards"
               : "toast-enter 0.3s ease-out",
           }}
-          className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900/95 backdrop-blur-md border ${borderMap[t.type]} shadow-2xl text-sm text-slate-200`}
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-black backdrop-blur-md border ${borderMap[t.type]} shadow-2xl text-sm text-white`}
         >
           {iconMap[t.type]}
           <span className="flex-1">{t.message}</span>
           <button
             onClick={() => dismiss(t.id)}
-            className="p-0.5 rounded text-slate-500 hover:text-slate-300 transition-colors"
+            className="p-0.5 rounded text-gray-500 hover:text-white transition-colors"
           >
             <X className="h-3.5 w-3.5" />
           </button>
