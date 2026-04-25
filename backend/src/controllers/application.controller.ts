@@ -67,7 +67,7 @@ export async function getApplication(
 ) {
   try {
     const app = await appService.getApplicationById(
-      req.params.id,
+      req.params.id as string,
       req.user!.id,
     );
     res.json(app);
@@ -83,7 +83,7 @@ export async function updateApplication(
 ) {
   try {
     const app = await appService.updateApplication(
-      req.params.id,
+      req.params.id as string,
       req.user!.id,
       req.body,
     );
@@ -99,7 +99,7 @@ export async function deleteApplication(
   next: NextFunction,
 ) {
   try {
-    await appService.deleteApplication(req.params.id, req.user!.id);
+    await appService.deleteApplication(req.params.id as string, req.user!.id);
     res.status(204).send();
   } catch (err) {
     next(err);
