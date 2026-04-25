@@ -9,12 +9,36 @@ import {
   Calendar,
 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
-import type { JobApplication } from "../types";
+import type { JobApplication, AppStatus } from "../types";
 
 interface JobCardProps {
   job: JobApplication;
   onEdit: (job: JobApplication) => void;
   onDelete: (job: JobApplication) => void;
+}
+
+const statusAccent: Record<AppStatus, string> = {
+  APPLIED: "border-l-blue-500/60",
+  INTERVIEW: "border-l-yellow-500/60",
+  OFFER: "border-l-emerald-500/60",
+  REJECTED: "border-l-red-500/60",
+  WITHDRAWN: "border-l-slate-500/60",
+};
+
+function timeAgo(dateStr: string): string {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
@@ -25,11 +49,13 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
   });
 
   return (
-    <div className="glass rounded-xl p-5 hover:bg-white/[0.07] transition-all duration-200 group">
+    <div
+      className={`glass rounded-xl p-5 hover:bg-white/[0.07] transition-all duration-200 group border-l-[3px] ${statusAccent[job.status]}`}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-slate-100 truncate text-base">
+          <h3 className="font-semibold text-slate-100 truncate text-[15px] leading-snug">
             {job.position}
           </h3>
           <div className="flex items-center gap-1.5 mt-1">
@@ -43,7 +69,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
       </div>
 
       {/* Meta info */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-4">
+      <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
         {job.location && (
           <div className="flex items-center gap-1 text-xs text-slate-500">
             <MapPin className="h-3 w-3" />
@@ -56,9 +82,12 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
             <span>{job.salary}</span>
           </div>
         )}
-        <div className="flex items-center gap-1 text-xs text-slate-500">
+        <div
+          className="flex items-center gap-1 text-xs text-slate-500"
+          title={appliedDate}
+        >
           <Calendar className="h-3 w-3" />
-          <span>{appliedDate}</span>
+          <span>{timeAgo(job.appliedAt)}</span>
         </div>
       </div>
 
@@ -71,11 +100,11 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
 
       {/* Actions */}
       <div className="flex items-center justify-between pt-3 border-t border-white/5">
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <button
             onClick={() => onEdit(job)}
             id={`edit-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
           >
             <Edit2 className="h-3.5 w-3.5" />
             Edit
@@ -83,7 +112,7 @@ export default function JobCard({ job, onEdit, onDelete }: JobCardProps) {
           <button
             onClick={() => onDelete(job)}
             id={`delete-job-${job.id}`}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
           >
             <Trash2 className="h-3.5 w-3.5" />
             Delete

@@ -159,7 +159,7 @@ export default function DashboardPage() {
                 : new Date().getHours() < 17
                   ? "afternoon"
                   : "evening"}
-              , {user?.name?.split(" ")[0]} 👋
+              , {user?.name?.split(" ")[0]}
             </h2>
             <p className="text-slate-400 text-sm mt-1">
               Track and manage all your job applications

@@ -46,14 +46,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-indigo-500/8 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/8 blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-500/20 mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-500/15 mb-4">
             <Briefcase className="h-7 w-7 text-indigo-400" />
           </div>
           <h1 className="text-3xl font-bold gradient-text">JobTracker</h1>
@@ -70,9 +70,9 @@ export default function LoginPage() {
 
           {/* Error banner */}
           {serverError && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-5">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              {serverError}
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-5">
+              <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              <span>{serverError}</span>
             </div>
           )}
 
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
                 />
               </div>
               {errors.email && (
@@ -116,8 +116,8 @@ export default function LoginPage() {
                   id="password-input"
                   type="password"
                   autoComplete="current-password"
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  placeholder="Enter your password"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200"
                 />
               </div>
               {errors.password && (
@@ -142,20 +142,22 @@ export default function LoginPage() {
           {/* Demo hint */}
           <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
             <p className="text-xs text-slate-500 text-center">
-              <span className="text-slate-400 font-medium">Demo:</span>{" "}
+              <span className="text-slate-400 font-medium">Demo account:</span>{" "}
               demo@jobtracker.com / Demo1234!
             </p>
           </div>
 
-          <p className="text-center mt-5 text-sm text-slate-500">
-            Don't have an account?{" "}
-            <Link
-              to="/signup"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-            >
-              Sign up free
-            </Link>
-          </p>
+          <div className="mt-5 pt-5 border-t border-white/5">
+            <p className="text-center text-sm text-slate-500">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Sign up free
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

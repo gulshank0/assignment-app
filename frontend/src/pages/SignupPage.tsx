@@ -3,7 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Briefcase, Mail, Lock, User, AlertCircle } from "lucide-react";
+import {
+  Briefcase,
+  Mail,
+  Lock,
+  User,
+  AlertCircle,
+  Check,
+  X as XIcon,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
 import axios from "axios";
@@ -26,6 +34,36 @@ const schema = z
 
 type FormData = z.infer<typeof schema>;
 
+function PasswordStrength({ password }: { password: string }) {
+  const checks = [
+    { label: "8+ characters", met: password.length >= 8 },
+    { label: "Uppercase letter", met: /[A-Z]/.test(password) },
+    { label: "Number", met: /[0-9]/.test(password) },
+  ];
+
+  if (!password) return null;
+
+  return (
+    <div className="mt-2 space-y-1">
+      {checks.map((check) => (
+        <div
+          key={check.label}
+          className={`flex items-center gap-1.5 text-xs ${
+            check.met ? "text-emerald-400" : "text-slate-500"
+          }`}
+        >
+          {check.met ? (
+            <Check className="h-3 w-3" />
+          ) : (
+            <XIcon className="h-3 w-3" />
+          )}
+          <span>{check.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function SignupPage() {
   const { signup } = useAuth();
   const navigate = useNavigate();
@@ -34,8 +72,11 @@ export default function SignupPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  const passwordValue = watch("password", "");
 
   const onSubmit = async (data: FormData) => {
     setServerError("");
@@ -54,20 +95,20 @@ export default function SignupPage() {
   };
 
   const inputClass =
-    "w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors";
+    "w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200";
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-indigo-500/8 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/8 blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-500/20 mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-500/15 mb-4">
             <Briefcase className="h-7 w-7 text-indigo-400" />
           </div>
           <h1 className="text-3xl font-bold gradient-text">JobTracker</h1>
@@ -84,9 +125,9 @@ export default function SignupPage() {
 
           {/* Error banner */}
           {serverError && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-5">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              {serverError}
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-5">
+              <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              <span>{serverError}</span>
             </div>
           )}
 
@@ -153,7 +194,7 @@ export default function SignupPage() {
                   id="password-input"
                   type="password"
                   autoComplete="new-password"
-                  placeholder="Min 8 chars, 1 uppercase, 1 number"
+                  placeholder="Create a strong password"
                   className={inputClass}
                 />
               </div>
@@ -162,6 +203,7 @@ export default function SignupPage() {
                   {errors.password.message}
                 </p>
               )}
+              <PasswordStrength password={passwordValue} />
             </div>
 
             {/* Confirm Password */}
@@ -176,7 +218,7 @@ export default function SignupPage() {
                   id="confirm-password-input"
                   type="password"
                   autoComplete="new-password"
-                  placeholder="••••••••"
+                  placeholder="Re-enter your password"
                   className={inputClass}
                 />
               </div>
@@ -199,15 +241,17 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <p className="text-center mt-5 text-sm text-slate-500">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-            >
-              Sign in
-            </Link>
-          </p>
+          <div className="mt-5 pt-5 border-t border-white/5">
+            <p className="text-center text-sm text-slate-500">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

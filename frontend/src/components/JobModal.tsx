@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -37,7 +37,7 @@ const STATUS_OPTIONS = [
 ] as const;
 
 const inputClass =
-  "w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors";
+  "w-full px-3 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-100 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/60 transition-all duration-200";
 
 const labelClass = "block text-sm font-medium text-slate-300 mb-1.5";
 
@@ -50,6 +50,8 @@ export default function JobModal({
   initialData,
   isLoading = false,
 }: JobModalProps) {
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
@@ -86,11 +88,22 @@ export default function JobModal({
             }
           : { status: "APPLIED" },
       );
+      // Focus first input after a short delay for animation
+      setTimeout(() => firstInputRef.current?.focus(), 100);
     }
   }, [isOpen, initialData, reset]);
 
+  // Handle Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   const handleFormSubmit = async (data: FormData) => {
-    // Remove empty optional fields
     const cleaned: CreateApplicationInput = {
       company: data.company,
       position: data.position,
@@ -114,12 +127,19 @@ export default function JobModal({
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg glass rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg glass rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto animate-modal-enter">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold gradient-text">
-            {initialData ? "Edit Application" : "Add New Application"}
-          </h2>
+          <div>
+            <h2 className="text-lg font-bold text-slate-100">
+              {initialData ? "Edit Application" : "New Application"}
+            </h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              {initialData
+                ? "Update the details below"
+                : "Fill in the details to track a new application"}
+            </p>
+          </div>
           <button
             onClick={onClose}
             id="close-modal-btn"
@@ -133,9 +153,17 @@ export default function JobModal({
           {/* Company + Position */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>Company *</label>
+              <label className={labelClass}>
+                Company <span className="text-red-400/70">*</span>
+              </label>
               <input
                 {...register("company")}
+                ref={(e) => {
+                  register("company").ref(e);
+                  (
+                    firstInputRef as React.MutableRefObject<HTMLInputElement | null>
+                  ).current = e;
+                }}
                 id="company-input"
                 placeholder="e.g. Google"
                 className={inputClass}
@@ -145,7 +173,9 @@ export default function JobModal({
               )}
             </div>
             <div>
-              <label className={labelClass}>Position *</label>
+              <label className={labelClass}>
+                Position <span className="text-red-400/70">*</span>
+              </label>
               <input
                 {...register("position")}
                 id="position-input"
