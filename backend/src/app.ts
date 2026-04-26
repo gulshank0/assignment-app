@@ -8,13 +8,36 @@ import { errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 
+const defaultOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+const envOrigins = (process.env.CLIENT_URL ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = new Set([...defaultOrigins, ...envOrigins]);
+
 // ─── Security headers ─────────────────────────────────────────────────────────
 app.use(helmet());
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://assignment-app-7vdf.vercel.app",
+    origin: (origin, callback) => {
+      // Allow non-browser requests (curl, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Exact allow-list match
+      if (allowedOrigins.has(origin)) return callback(null, true);
+
+      // Convenience for local dev ports
+      if (
+        process.env.NODE_ENV !== "production" &&
+        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true, // Allow cookies
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

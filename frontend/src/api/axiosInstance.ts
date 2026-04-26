@@ -2,11 +2,20 @@ import axios from "axios";
 
 let accessToken: string | null = null;
 
+function resolveApiBaseUrl() {
+  const configuredBase =
+    import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "";
+
+  if (!configuredBase) return "/api";
+
+  const trimmed = configuredBase.replace(/\/+$/, "");
+  return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
+}
+
 // Axios instance with base URL and credentials
 const api = axios.create({
-  // Use VITE_API_BASE_URL if provided, else fall back to local /api proxy.
-  // Ensure we don't double up on /api or miss it.
-  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+  // Use explicit backend URL in production, fallback to /api proxy in dev.
+  baseURL: resolveApiBaseUrl(),
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
@@ -73,14 +82,14 @@ api.interceptors.response.use(
         accessToken = null;
         refreshQueue = [];
         // Redirect to login on refresh failure
-        window.location.href = "/login";
-        return Promise.reject(error);
+        globalThis.location.href = "/login";
+        throw error;
       } finally {
         isRefreshing = false;
       }
     }
 
-    return Promise.reject(error);
+    throw error;
   },
 );
 

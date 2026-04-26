@@ -182,6 +182,8 @@ npm run dev
    JWT_REFRESH_EXPIRES=7d
    NODE_ENV=production
    CLIENT_URL=https://your-frontend-domain.vercel.app
+   # Optional: comma-separated if multiple origins
+   # CLIENT_URL=https://your-frontend-domain.vercel.app,https://your-custom-domain.com
    ```
 
 ### Frontend — Vercel / Netlify
@@ -192,12 +194,18 @@ npm run dev
 2. Build command: `npm run build` (already configured)
 3. Add environment variable:
    ```
-   VITE_API_URL=   # leave empty — the Vite proxy handles dev; set to backend URL for production
+   VITE_API_BASE_URL=https://your-backend-domain.com
    ```
-4. Update `vite.config.ts` proxy → for production, set the full backend URL as the base URL in `axiosInstance.ts`:
+4. Keep `vercel.json` for SPA rewrite only (already configured). In production, frontend calls backend directly via `VITE_API_BASE_URL`.
+5. In local development, you can keep `VITE_API_BASE_URL` empty and use the Vite `/api` proxy.
+
+The frontend API client supports both `VITE_API_BASE_URL` and legacy `VITE_API_URL`.
+
+Example:
    ```ts
    // src/api/axiosInstance.ts
-   baseURL: import.meta.env.VITE_API_URL || '/api',
+   // If env exists, uses that backend; otherwise uses /api proxy
+   baseURL: resolveApiBaseUrl(),
    ```
 
 ### Generate secure secrets
@@ -226,5 +234,6 @@ CLIENT_URL=http://localhost:5173
 ### Frontend (optional `.env.local`)
 
 ```env
-VITE_API_URL=http://localhost:5000  # Only needed if not using Vite proxy
+VITE_API_BASE_URL=http://localhost:5000
+# (Legacy alias also supported: VITE_API_URL)
 ```
