@@ -10,11 +10,11 @@ async function bootstrap() {
   try {
     // Verify database connection
     await prisma.$connect();
-    console.log("✅ Database connected");
+    console.log("Database connected");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-      console.log(`📖 Environment: ${process.env.NODE_ENV || "development"}`);
+      console.log(` Server running at http://localhost:${PORT}`);
+      console.log(` Environment: ${process.env.NODE_ENV || "development"}`);
     });
   } catch (err) {
     console.error("❌ Failed to start server:", err);
@@ -25,7 +25,7 @@ async function bootstrap() {
 
 // Graceful shutdown
 process.on("SIGINT", async () => {
-  console.log("\n🛑 Shutting down gracefully...");
+  console.log("Shutting down gracefully...");
   await prisma.$disconnect();
   process.exit(0);
 });

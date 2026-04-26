@@ -8,6 +8,9 @@ import { errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 
+// Trust proxy required for secure cookies behind reverse proxies (Render, Heroku, Nginx)
+app.set("trust proxy", 1);
+
 const defaultOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
 const envOrigins = (process.env.CLIENT_URL ?? "")
   .split(",")
