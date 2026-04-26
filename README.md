@@ -135,16 +135,6 @@ npm run dev
 
 ## API Endpoints
 
-### Auth (`/api/auth`)
-
-| Method | Route      | Auth      | Description    |
-| ------ | ---------- | --------- | -------------- |
-| POST   | `/signup`  | ❌        | Create account |
-| POST   | `/login`   | ❌        | Login          |
-| POST   | `/refresh` | 🍪 cookie | Rotate tokens  |
-| POST   | `/logout`  | 🍪 cookie | Logout         |
-| GET    | `/me`      | ✅        | Current user   |
-
 ### Applications (`/api/applications`) — all protected
 
 | Method | Route  | Description                        |
